@@ -1,0 +1,52 @@
+<div class="registro-container">
+  <div class="card">
+    <h2>Registro de Cliente</h2>
+
+    <form [formGroup]="form" (ngSubmit)="registrar()" novalidate>
+      <div class="grid">
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" formControlName="nombre" type="text" />
+          <small class="error" *ngIf="form.get('nombre')?.invalid && form.get('nombre')?.touched">Ingrese el nombre.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="apellidos">Apellidos</label>
+          <input id="apellidos" formControlName="apellidos" type="text" />
+          <small class="error" *ngIf="form.get('apellidos')?.invalid && form.get('apellidos')?.touched">Ingrese los apellidos.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="celular">Celular</label>
+          <input id="celular" formControlName="celular" type="tel" />
+          <small class="error" *ngIf="form.get('celular')?.invalid && form.get('celular')?.touched">Número inválido.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="correo">Correo</label>
+          <input id="correo" formControlName="correo" type="email" />
+          <small class="error" *ngIf="form.get('correo')?.invalid && form.get('correo')?.touched">Correo inválido.</small>
+        </div>
+
+        <!-- Token visible -->
+        <div class="form-group">
+          <label for="token">Token</label>
+          <input id="token" formControlName="token" type="text" />
+          <small class="error" *ngIf="form.get('token')?.invalid && form.get('token')?.touched">Ingrese el token.</small>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn primary" [disabled]="loading || form.invalid">
+          {{ loading ? 'Procesando...' : 'Registrar' }}
+        </button>
+        <button type="button" class="btn secondary" (click)="form.reset()" [disabled]="loading">
+          Limpiar
+        </button>
+      </div>
+
+      <p class="msg success" *ngIf="msg && !loading">{{ msg }}</p>
+      <p class="msg info" *ngIf="loading">Procesando...</p>
+    </form>
+  </div>
+</div>
