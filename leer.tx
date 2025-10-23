@@ -1,0 +1,55 @@
+Para iniciar el sistema ingresar a la siguiente ruta : cd prueba-tecnica/fronted/angular-AppComponent
+dentro de la ruta ejecutar con el siguiente comando: npx ng serve
+
+
+
+script bd:
+
+
+CREATE DATABASE IF NOT EXISTS formulario;
+USE formulario;
+
+CREATE TABLE registro_cliente (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellidos VARCHAR(150) NOT NULL,
+    celular VARCHAR(9) NOT NULL,
+    correo VARCHAR(150) NOT NULL UNIQUE,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT chk_celular CHECK (celular REGEXP '^[0-9]{9}$'),
+    CONSTRAINT chk_correo CHECK (correo REGEXP '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$')
+);
+
+
+CREATE TABLE tokens (
+    id_token INT AUTO_INCREMENT PRIMARY KEY,
+    token VARCHAR(8) NOT NULL UNIQUE,
+    estado ENUM('activo', 'usado', 'expirado') DEFAULT 'activo',
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_expiracion TIMESTAMP NULL,
+    CONSTRAINT chk_token CHECK (token REGEXP '^[0-9]{8}$')
+);
+
+CREATE TABLE parametros (
+    id_parametro INT AUTO_INCREMENT PRIMARY KEY,
+    clave VARCHAR(100) UNIQUE NOT NULL,
+    valor VARCHAR(255) NOT NULL
+);
+
+-- Seed inicial requerido por la prueba
+INSERT INTO parametros (clave, valor) VALUES ('enviar_correos', 'true');
+
+
+CREATE TABLE correos_enviados (
+    id_correo INT AUTO_INCREMENT PRIMARY KEY,
+    destinatario VARCHAR(150) NOT NULL,
+    asunto VARCHAR(150) NOT NULL,
+    cuerpo TEXT,
+    estado ENUM('pendiente', 'enviado', 'fallido') DEFAULT 'pendiente',
+    fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_cliente INT,
+    CONSTRAINT fk_cliente_correo 
+        FOREIGN KEY (id_cliente) 
+        REFERENCES registro_cliente(id_cliente)
+        ON DELETE CASCADE
+);
