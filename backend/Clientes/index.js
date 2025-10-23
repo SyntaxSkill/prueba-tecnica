@@ -21,6 +21,11 @@ fastify.get("/ping", async () => {
 });
 
 // ✅ Endpoint POST /clientes
+fastify.get("/clientes", async (request, reply) => {
+  const [rows] = await connection.query('SELECT * FROM registro_cliente');
+  return rows;
+});
+
 fastify.post("/clientes", async (request, reply) => {
   const { nombre, apellidos, celular, correo, token } = request.body;
 

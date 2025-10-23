@@ -1,4 +1,4 @@
-Para iniciar el sistema ingresar a la siguiente ruta : cd prueba-tecnica/fronted/angular-AppComponent
+Para iniciar el sistema ingresar a la siguiente ruta : cd prueba-tecnica/fronted/angular-app
 dentro de la ruta ejecutar con el siguiente comando: npx ng serve
 
 
